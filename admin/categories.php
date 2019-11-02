@@ -17,27 +17,8 @@
                             <small>Subheading</small>
                         </h1>
                         <div class="col-xs-6">
-                            
-                            <?php
-                            if(isset($_POST['submit'])){
-
-                              $cat_title=$_POST['cat_title'];
-
-                              if($cat_title=="" || empty($cat_title)){
-                                echo "This field should not be empty";
-                              }else{
-                                $query="INSERT INTO categories(cat_title)";
-                                $query.="VALUE ('{$cat_title}')";
-                                $inser_cat_query=mysqli_query($connection, $query);
-                                if(!$inser_cat_query){
-                                    die("query failed".mysqli_error($connection));
-                                }
-                              }
-                            }
-
-                            ?>
-
-
+                            <!--insert categories-->
+                            <?php insert_categories();?>
 
                         	<form action="" method="post">
                         		<div class="form-group">
@@ -46,35 +27,33 @@
                         		</div>
                         		<input type="submit" class="btn btn-primary btn-block" name="submit" value="Add Catetory" >
                         	</form>
+
+                    <?php include "includes/update_categories.php";?>
+
+
                         </div>
 
                         <div class="col-xs-6">
-                            <?php
-
-                            $query="SELECT * FROM categories";
-                            $select_category=mysqli_query($connection,$query);
-
-                            ?>
                         	<table class="table table-striped">
                         		<thead>
                         			<tr class="text-center">
                         				<th style="text-align: center;">ID</th>
                         				<th style="text-align: center;">Category Titile</th>
+                                        <th>&nbsp;</th>
+                                        <th>&nbsp;</th>
                         			</tr>
                         		</thead>
                         		<tbody>
-                                    <?php 
-                                    while ($row=mysqli_fetch_assoc($select_category)):
+                                    <?php
+                                        findAllCategories();
+
                                     ?>
 
-                        			<tr>
-                        				<td align="center"><?php echo $row['cat_id'];?></td>
-                                        <td align="center"><?php echo $row['cat_title'];?></td>
-                        				
-                        			</tr>
-
-                                <?php endwhile;?>
                         		</tbody>
+
+                                <?php
+                                    deleteCategories();
+                                ?>
                         	</table>
                         </div>
                     </div>
