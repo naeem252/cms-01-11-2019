@@ -2,7 +2,7 @@
 <?php
     if(isset($_POST['publish'])){
         $post_title=$_POST['title'];
-        $post_category_id=$_POST['category_id'];
+        $post_category_id=$_POST['post_category_id'];
         $post_author=$_POST['author'];
         $post_status=$_POST['status'];
         $post_image=$_FILES['image']['name'];
@@ -19,7 +19,7 @@
         $query="INSERT INTO posts(post_title,post_category_id,post_author,post_status,post_image,post_tags,post_content,post_date,post_comment_count)";
         $query.="VALUES('$post_title','$post_category_id','$post_author','$post_status','$post_image','$post_tags','$post_content',now(),$post_comment_count)";
         $create_post_query=mysqli_query($connection,$query);
-
+        confirm($create_post_query);
 
     }
 ?>
@@ -34,7 +34,18 @@
         <label for="post_category">
             Post Category Id
         </label>
-        <input type="text" class="form-control" name="category_id">
+        <select class="form-control" name="post_category_id" id="category">
+            <?php
+            $query="SELECT * FROM categories";
+            $post_category=mysqli_query($connection,$query);
+            confirm($post_category);
+            while ($row=mysqli_fetch_assoc($post_category)){
+
+                echo "<option  value='{$row['cat_id']}'>{$row['cat_title']}</option>";
+            }
+
+            ?>
+        </select>
     </div>
     <div class="form-group">
         <label for="author">

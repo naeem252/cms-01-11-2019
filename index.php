@@ -25,7 +25,7 @@
 
                 <!-- First Blog Post -->
                 <h2>
-                    <a href="#"><?php echo $row['post_title'];?></a>
+                    <a href="post.php?p_id=<?php echo $row['post_id'];?>"><?php echo $row['post_title'];?></a>
                 </h2>
                 <p class="lead">
                     by <a href="index.php"><?php echo $row['post_author'];?></a>
