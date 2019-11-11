@@ -18,9 +18,14 @@
                    <?php
             mysqli_query($connection,'SET CHARACTER SET utf8'); 
             mysqli_query($connection,"SET SESSION collation_connection ='utf8_general_ci'");
-            $query="SELECT * FROM posts";
+            $query="SELECT * FROM posts WHERE post_status='published'";
             $post_select_query=mysqli_query($connection,$query);
+                   if(mysqli_num_rows($post_select_query)<1){
+                        echo "<h1 class='display-1 text-center text-capitalize'>no post found sorry</h1>";
+                   }else{
+
             while($row=mysqli_fetch_assoc($post_select_query)){
+
             ?>
 
                 <!-- First Blog Post -->
@@ -40,7 +45,7 @@
                 <hr>
 
           
-                 <?php } ?>
+                 <?php } }?>
             </div>
             <!-- Blog Sidebar Widgets Column -->
            <?php include "includes/sidebar.php";?>

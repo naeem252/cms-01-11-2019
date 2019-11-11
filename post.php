@@ -50,11 +50,20 @@ if(isset($_GET['p_id'])){
                 <!-- Comments Form -->
                 <div class="well">
                     <h4>Leave a Comment:</h4>
-                    <form role="form">
+                    <form role="form" method="post" action="">
                         <div class="form-group">
-                            <textarea class="form-control" rows="3"></textarea>
+                            <label for="author">Author</label>
+                            <input type="text" name="comment_author" class="form-control">
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" name="comment_email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="text">Text</label>
+                            <textarea class="form-control" name="comment_text" rows="3"></textarea>
+                        </div>
+                        <button type="submit" name="create_comment" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
 
@@ -62,44 +71,53 @@ if(isset($_GET['p_id'])){
 
                 <!-- Posted Comments -->
 
-                <!-- Comment -->
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="http://placehold.it/64x64" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">Start Bootstrap
-                            <small>August 25, 2014 at 9:30 PM</small>
-                        </h4>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                    </div>
-                </div>
+            <?php
+            if(isset($_POST['create_comment'])){
+                $the_post_id=$_GET['p_id'];
+
+                $comment_author= $_POST['comment_author'];
+                $comment_email=$_POST['comment_email'];
+                $comment_text=$_POST['comment_text'];
+                $comment_query="INSERT INTO comments(comment_post_id,comment_author,comment_email,comment_content,comment_date) ";
+                $comment_query.="VALUES ({$the_post_id},'{$comment_author}','{$comment_email}','{$comment_text}',now())";
+
+                $comment_query_send=mysqli_query($connection,$comment_query);
+                confirm($comment_query_send);
+
+                $query="UPDATE posts SET post_comment_count=post_comment_count+1 ";
+                $query.="WHERE post_id={$the_post_id}";
+                $update_comment_count=mysqli_query($connection,$query);
+                confirm($update_comment_count);
+            }
+
+            ?>
 
                 <!-- Comment -->
+            <?php
+            $query="SELECT * FROM comments WHERE comment_post_id={$post_id} ";
+            $query.="AND comment_status='approve' ORDER BY comment_id DESC";
+            $add_comment_query=mysqli_query($connection,$query);
+            confirm($add_comment_query);
+            while($row=mysqli_fetch_assoc($add_comment_query)){
+
+            ?>
                 <div class="media">
                     <a class="pull-left" href="#">
                         <img class="media-object" src="http://placehold.it/64x64" alt="">
                     </a>
                     <div class="media-body">
-                        <h4 class="media-heading">Start Bootstrap
-                            <small>August 25, 2014 at 9:30 PM</small>
+                        <h4 class="media-heading">
+                            <?php echo $row['comment_author'];?>
+                            <small><?php echo $row['comment_date'];?></small>
                         </h4>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        <!-- Nested Comment -->
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="http://placehold.it/64x64" alt="">
-                            </a>
-                            <div class="media-body">
-                                <h4 class="media-heading">Nested Start Bootstrap
-                                    <small>August 25, 2014 at 9:30 PM</small>
-                                </h4>
-                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                            </div>
-                        </div>
-                        <!-- End Nested Comment -->
+                        <?php echo $row['comment_content'];?>
                     </div>
                 </div>
+            <?php }?>
+
+
+                <!-- Comment -->
+
 
         </div>
         <!-- Blog Sidebar Widgets Column -->

@@ -10,14 +10,13 @@
         $post_tags=$_POST['tags'];
         $post_content=$_POST['content'];
         $post_date=date('d-m-y');
-        $post_comment_count=4;
       
 
 
         move_uploaded_file($post_image_temp,"../images/$post_image");
 
-        $query="INSERT INTO posts(post_title,post_category_id,post_author,post_status,post_image,post_tags,post_content,post_date,post_comment_count)";
-        $query.="VALUES('$post_title','$post_category_id','$post_author','$post_status','$post_image','$post_tags','$post_content',now(),$post_comment_count)";
+        $query="INSERT INTO posts(post_title,post_category_id,post_author,post_status,post_image,post_tags,post_content,post_date)";
+        $query.="VALUES('$post_title','$post_category_id','$post_author','$post_status','$post_image','$post_tags','$post_content',now())";
         $create_post_query=mysqli_query($connection,$query);
         confirm($create_post_query);
 
