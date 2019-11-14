@@ -1,6 +1,15 @@
 <?php ob_start();?>
 <?php include_once "../includes/db.php";?>
 <?php include "functions.php";?>
+<?php session_start();?>
+<?php
+
+if(isset($_SESSION['user_role']) && $_SESSION['user_role']!=='admin'){
+    header("Location:../");
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
