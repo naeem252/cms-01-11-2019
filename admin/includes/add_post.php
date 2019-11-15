@@ -56,8 +56,14 @@
         <label for="status">
             Post Status
         </label>
-        <input type="text" class="form-control" name="status">
-    </div>
+        <select name="status" id="" class="form-control">
+            <option value="published" >
+                Published
+            </option>
+            <option value="draft">
+                draft
+            </option>
+        </select>
     <div class="form-group">
         <label for="image">
             Post Image
@@ -74,7 +80,15 @@
         <label for="content">
             Post Content
         </label>
-        <textarea name="content" class="form-control" id="content" cols="30" rows="10"></textarea>
+
+        <textarea name="content" class="form-control" id="body" cols="30" rows="30"></textarea>
     </div>
     <input type="submit" name="publish" value="Publish Post" class="btn btn-primary">
 </form>
+        <script>
+    ClassicEditor
+        .create( document.querySelector( '#body' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>

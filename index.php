@@ -37,7 +37,9 @@
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $row['post_date'];?> at 10:00 PM</p>
                 <hr>
+                <a href="post.php?p_id=<?php echo $row['post_id'];?>">
                 <img class="img-responsive" src="images/<?php echo $row['post_image'];?>" alt="">
+                </a>
                 <hr>
                 <p><?php echo substr($row['post_content'], 0,500)."......";?></p>
                 <a class="btn btn-primary" href="post.php?p_id=<?php echo $row['post_id'];?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>

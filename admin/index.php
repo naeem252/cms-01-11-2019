@@ -150,6 +150,10 @@
                         $select_all_post=mysqli_query($connection,$query);
                         $count_draft_post=mysqli_num_rows($select_all_post);
 
+                        $query="SELECT * FROM posts WHERE post_status='published'";
+                        $select_all_active_post=mysqli_query($connection,$query);
+                        $count_active_post=mysqli_num_rows($select_all_active_post);
+
 
                         $query="SELECT * FROM comments WHERE comment_status='unapprove'";
                         $select_all_comments=mysqli_query($connection,$query);
@@ -172,8 +176,8 @@
 
           <?php
 
-            $element_text=['Active Posts','Draft Post',"Category","Users",'Subscriber',"Comments","Unapprove Comment"];
-            $element_count=[$count_post,$count_draft_post,$count_category,$count_user,$count_subscriber_user,$count_comments,$count_unapprove_comment];
+            $element_text=["All Post",'Active Posts','Draft Post',"Category","Users",'Subscriber',"Comments","Unapprove Comment"];
+            $element_count=[$count_post,$count_active_post,$count_draft_post,$count_category,$count_user,$count_subscriber_user,$count_comments,$count_unapprove_comment];
             for($i=0;$i<count($element_text);$i++){
                 echo "['{$element_text[$i]}'".",".$element_count[$i]."],";
             }
