@@ -76,7 +76,7 @@ if(isset($_POST['checkBoxArr'])){
             
             <td><?php echo $row['post_id'];?></td>
             <td><?php echo $row['post_author'];?></td>
-            <td><?php echo $row['post_title'];?></td>
+            <td><a target="_blank" href="../post.php?p_id=<?php echo $row['post_id'];?>"><?php echo $row['post_title'];?></a></td>
             <?php
             $query="SELECT * FROM categories WHERE cat_id={$row['post_category_id']}";
             $cat_query=mysqli_query($connection,$query);

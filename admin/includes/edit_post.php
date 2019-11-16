@@ -106,7 +106,15 @@ if(isset($_POST['update_post'])){
         <label for="content">
             Post Content
         </label>
-        <textarea name="content"class="form-control" id="content" cols="30" rows="10"><?php echo $select_posts_data['post_content'];?></textarea>
+        <textarea name="content"class="form-control" id="body" cols="30" rows="10"><?php echo $select_posts_data['post_content'];?></textarea>
     </div>
     <input type="submit" name="update_post" value="Publish Post" class="btn btn-primary">
 </form>
+
+        <script>
+    ClassicEditor
+        .create( document.querySelector( '#body' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>

@@ -78,7 +78,9 @@ if(isset($_GET['p_id'])){
                 $comment_author= $_POST['comment_author'];
                 $comment_email=$_POST['comment_email'];
                 $comment_text=$_POST['comment_text'];
-                $comment_query="INSERT INTO comments(comment_post_id,comment_author,comment_email,comment_content,comment_date) ";
+
+                if(!empty($comment_author) && !empty($comment_email) && !empty($comment_text)){
+                    $comment_query="INSERT INTO comments(comment_post_id,comment_author,comment_email,comment_content,comment_date) ";
                 $comment_query.="VALUES ({$the_post_id},'{$comment_author}','{$comment_email}','{$comment_text}',now())";
 
                 $comment_query_send=mysqli_query($connection,$comment_query);
@@ -88,6 +90,11 @@ if(isset($_GET['p_id'])){
                 $query.="WHERE post_id={$the_post_id}";
                 $update_comment_count=mysqli_query($connection,$query);
                 confirm($update_comment_count);
+            }else{
+                echo "<script>alert('fields can not be empty')</script>";
+            }
+
+                
             }
 
             ?>

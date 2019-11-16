@@ -19,6 +19,8 @@
         $query.="VALUES('$post_title','$post_category_id','$post_author','$post_status','$post_image','$post_tags','$post_content',now())";
         $create_post_query=mysqli_query($connection,$query);
         confirm($create_post_query);
+        $last_id=mysqli_insert_id($connection);
+        echo "<p class='bg-success'>Post Created: <a href='../post.php?p_id={$last_id}'>View Post</a> or <a href='posts.php'>Add More Post</a></p>";
 
     }
 ?>
