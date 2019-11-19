@@ -6,34 +6,43 @@ if(isset($_POST['submit'])){
 $username=$_POST['username'];
 $email=$_POST['email'];
 $password=$_POST['password'];
-$username=mysqli_real_escape_string($connection,$username);
-$email=mysqli_real_escape_string($connection,$email);
-$password=mysqli_real_escape_string($connection,$password);
+
+if(!empty($username) && !empty($email) && !empty($password)){
+
+        $username=mysqli_real_escape_string($connection,$username);
+    $email=mysqli_real_escape_string($connection,$email);
+    $password=mysqli_real_escape_string($connection,$password);
 
 
-$query="SELECT randSalt FROM users";
-$select_randsalt_query=mysqli_query($connection, $query);
-if(!$select_randsalt_query){
-    die("query faield".mysqli_error($connection));
-}
+    $query="SELECT randSalt FROM users";
+    $select_randsalt_query=mysqli_query($connection, $query);
+    if(!$select_randsalt_query){
+        die("query faield".mysqli_error($connection));
+    }
 
-$row=mysqli_fetch_assoc($select_randsalt_query);
-$salt=$row['randSalt'];
+    $row=mysqli_fetch_assoc($select_randsalt_query);
+    $salt=$row['randSalt'];
 
-$password=crypt($password,$salt);
-  
+    $password=crypt($password,$salt);
+      
 
-  $query="INSERT INTO users(username,user_email,user_password,user_role) ";
-  $query.="VALUES('{$username}','{$email}','{$password}','subscriber')";
-  $register_user_query=mysqli_query($connection, $query);
-  if(!$register_user_query){
-    die("query field".mysqli_error($connection));
+      $query="INSERT INTO users(username,user_email,user_password,user_role) ";
+      $query.="VALUES('{$username}','{$email}','{$password}','subscriber')";
+      $register_user_query=mysqli_query($connection, $query);
+      if(!$register_user_query){
+        die("query field".mysqli_error($connection));
 
   }
 
+  $message="<h1 class='text-center text-success'>your register has been submited</h1>";
+
+}else{
+     $message="<h1 class='text-center text-danger'>Fields Cannot be empty</h1>";
+}
 
 
-
+}else{
+    $message="";
 }
 
 
@@ -53,6 +62,7 @@ $password=crypt($password,$salt);
                 <div class="form-wrap">
                 <h1>Register</h1>
                     <form role="form" action="registration.php" method="post" id="login-form" autocomplete="off">
+                        <?php echo $message;?>
                         <div class="form-group">
                             <label for="username" class="sr-only">username</label>
                             <input type="text" name="username" id="username" class="form-control" placeholder="Enter Desired Username">

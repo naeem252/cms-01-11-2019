@@ -9,13 +9,28 @@ if(isset($_GET['edit_id'])) {
 }
 
 if(isset($_POST['edit_user'])){
+
+$password=$_POST['user_password'];
+
+ $query="SELECT randSalt FROM users";
+    $select_randsalt_query=mysqli_query($connection, $query);
+    if(!$select_randsalt_query){
+        die("query faield".mysqli_error($connection));
+    }
+
+    $row=mysqli_fetch_assoc($select_randsalt_query);
+    $salt=$row['randSalt'];
+
+ $password=crypt($password,$salt);
+
+
     $query="UPDATE users SET ";
     $query.="user_firstname='{$_POST['user_firstname']}', ";
     $query.="user_lastname='{$_POST['user_lastname']}', ";
     $query.="user_role='{$_POST['user_role']}', ";
     $query.="username='{$_POST['username']}', ";
     $query.="user_email='{$_POST['user_email']}', ";
-    $query.="user_password='{$_POST['user_password']}' ";
+    $query.="user_password='{$password}' ";
     $query.="WHERE user_id={$the_user_id}";
     $update_user=mysqli_query($connection,$query);
     confirm($update_user);

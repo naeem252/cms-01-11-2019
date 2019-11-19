@@ -19,6 +19,26 @@ if(isset($_POST['checkBoxArr'])){
            $update_delete_query=mysqli_query($connection, $query);
            confirm($update_delete_query);
                 break;
+                case "clone":
+
+                $query="SELECT * FROM posts WHERE post_id={$checkBoxValue}";
+                $select_post_query=mysqli_query($connection, $query);
+                $mysqli_data=mysqli_fetch_assoc($select_post_query);
+             
+                $post_title=$mysqli_data['post_title'];
+        $post_category_id=$mysqli_data['post_category_id'];
+        $post_author=$mysqli_data['post_author'];
+        $post_image=$mysqli_data['post_image'];
+        $post_tags=$mysqli_data['post_tags'];
+        $post_status=$mysqli_data['post_status'];
+        $post_content=$mysqli_data['post_content'];
+
+                $query="INSERT INTO posts(post_title,post_category_id,post_author,post_status,post_image,post_tags,post_content,post_date)";
+        $query.="VALUES('$post_title','$post_category_id','$post_author','$post_status','$post_image','$post_tags','$post_content',now())";
+        $create_post_query=mysqli_query($connection,$query);
+        confirm($create_post_query);
+
+              
 
            
            default:
@@ -37,6 +57,7 @@ if(isset($_POST['checkBoxArr'])){
             <option value="published">Publish</option>
             <option value="draft">Draft</option>
             <option value="delete">Delete</option>
+            <option value="clone">Clone</option>
         </select>
     </div>
     <div class="col-xs-4">
@@ -88,7 +109,7 @@ if(isset($_POST['checkBoxArr'])){
             <td><?php echo $row['post_tags'];?></td>
             <td><?php echo $row['post_comment_count'];?></td>
             <td><?php echo $row['post_date'];?></td>
-            <td><a href="posts.php?delete=<?php echo $row['post_id'];?>">Delete</a></td>
+            <td><a onclick="javascript:return confirm('Are You sure want to delete this post!');" href="posts.php?delete=<?php echo $row['post_id'];?>">Delete</a></td>
             <td><a href="posts.php?source=edit_post&edit_id=<?php echo $row['post_id'];?>">Edit</a></td>
         </tr>
         <?php

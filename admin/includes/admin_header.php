@@ -25,7 +25,7 @@ if(isset($_SESSION['user_role']) && $_SESSION['user_role']!=='admin'){
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+<link rel="stylesheet" href="css/style.css">
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
 
