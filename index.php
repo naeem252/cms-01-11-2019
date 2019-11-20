@@ -18,7 +18,29 @@
                    <?php
             mysqli_query($connection,'SET CHARACTER SET utf8'); 
             mysqli_query($connection,"SET SESSION collation_connection ='utf8_general_ci'");
-            $query="SELECT * FROM posts WHERE post_status='published'";
+
+            if(isset($_GET['page'])){
+                $page=$_GET['page'];
+
+            }else{
+                $page="";
+            }
+
+
+            if($page=='' || $page==1){
+                 $page_num=0;
+            }else{
+                $page_num=($page * 5)-5;
+            }
+
+
+            $post_count_query="SELECT * FROM posts";
+            $send_count_query=mysqli_query($connection, $post_count_query);
+            $find_post_count=mysqli_num_rows($send_count_query);
+           
+            $count=ceil($find_post_count / 5);
+ echo $count;
+            $query="SELECT * FROM posts WHERE post_status='published' LIMIT $page_num,5";
             $post_select_query=mysqli_query($connection,$query);
                    if(mysqli_num_rows($post_select_query)<1){
                         echo "<h1 class='display-1 text-center text-capitalize'>no post found sorry</h1>";
@@ -56,6 +78,21 @@
         <!-- /.row -->
 
         <hr>
+        <ul class="pager">
+            <?php
+
+            for($i=1;$i<=$count;$i++){
+
+                if($i==$page){
+                    echo "<li ><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>";
+                }else{
+                    echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
+                }
+                
+            }
+
+            ?>
+        </ul>
 
         <!-- Footer -->
       <?php include "includes/footer.php";?>
